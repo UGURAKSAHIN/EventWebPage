@@ -1,0 +1,238 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Information •Paying</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .pay-container{
+            max-width: 500px;
+            margin: 60px auto;
+            padding: 24px;
+            border-radius: var(--radius);
+            background: var(--panel);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+        }
+        .pay-container h2{
+            margin-top: 0;
+            font-size: 26px;
+        }
+        .form-group{
+            margin-bottom: 15px;
+        }
+        .form-group label{
+            display: block;
+            margin-bottom: 6px;
+            font-size: .9rem;
+            color: var(--muted);
+        }
+        .input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 11px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--line);
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        select.input {
+            background-color: #121826;
+            appearance: none;
+            padding-right: 44px;
+        }
+
+        select.input option {
+            background-color: #121826;
+            color: #f5f7ff;
+        }
+
+        .select-wrap {
+            position: relative;
+        }
+
+        .select-wrap::after {
+            content: "";
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid var(--muted);
+            border-bottom: 2px solid var(--muted);
+            transform: translateY(-60%) rotate(45deg);
+            pointer-events: none;
+        }
+
+        .input:focus {
+            outline: 2px solid rgba(120,155,255,.6);
+        }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .summary-box {
+            margin: 20px 0;
+            padding: 16px;
+            border-radius: var(--radius);
+            background: rgba(255,255,255,.05);
+            border: 1px solid var(--line);
+        }
+
+        .summary-item {
+            display: none;
+        }
+
+        .summary-item.is-active {
+            display: block;
+        }
+
+        .summary-item div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .summary-item div:last-child {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .summary-item + .summary-item {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--line);
+        }
+
+        .confirmation {
+            display: none;
+            text-align: center;
+            padding: 18px 0 6px;
+        }
+
+        .confirmation.is-active {
+            display: block;
+        }
+
+        .confirmation__icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            border: 2px solid rgba(120,155,255,.6);
+            display: grid;
+            place-items: center;
+            font-size: 28px;
+        }
+
+        .confirmation__actions {
+            margin-top: 16px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="pay-container">
+
+            <h2>Paying Information</h2>
+            <p class="muted">Please fill out the information correctly</p>
+            <form id="payment-form" autocomplete="on">
+                <div class="form-group select-wrap">
+                    <label for="ticket-type">Ticket type</label>
+                    <select class="input" id="ticket-type" name="ticketType" required>
+                        <option value="pro">Pro</option>
+                        <option value="standard">Standard</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="card-name">Name on card</label>
+                    <input type="text" class="input" id="card-name" name="cardName" placeholder="Name Surname" autocomplete="cc-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="card-number">Card number</label>
+                    <input type="tel" class="input" id="card-number" name="cardNumber" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456" autocomplete="cc-number" required>
+                </div>
+
+                <div class="row-2">
+                    <div class="form-group">
+                        <label for="expiry">Expiry</label>
+                        <input type="text" class="input" id="expiry" name="expiry" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="cc-exp" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="password" class="input" id="cvv" name="cvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="input" id="email" name="email" placeholder="ornek@mail.com" autocomplete="email" required>
+                </div>
+
+            <div class="summary-box">
+                <div class="summary-item is-active" data-ticket="pro">
+                    <div><span>Ticket type:</span><span>Pro</span></div>
+                    <div><span>Price:</span><span>₺499</span></div>
+                    <div><span>Total:</span><span>₺499</span></div>
+                </div>
+
+                <div class="summary-item" data-ticket="standard">
+                    <div><span>Ticket type:</span><span>Standard</span></div>
+                    <div><span>Price:</span><span>₺299</span></div>
+                    <div><span>Total:</span><span>₺299</span></div>
+                </div>
+
+                <div class="summary-item" data-ticket="student">
+                    <div><span>Ticket type:</span><span>Student</span></div>
+                    <div><span>Price:</span><span>₺199</span></div>
+                    <div><span>Total:</span><span>₺199</span></div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full">Pay</button>
+            </form>
+
+            <div class="confirmation" id="payment-confirmation" aria-live="polite">
+                <div class="confirmation__icon">✓</div>
+                <h2>Payment Confirmed</h2>
+                <p class="muted">Thank you! Your ticket details have been sent to your email.</p>
+                <div class="confirmation__actions">
+                    <a class="btn btn--ghost btn--full" href="index.html">Back to Event Page</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const ticketTypeSelect = document.getElementById("ticket-type");
+        const summaryItems = document.querySelectorAll(".summary-item");
+        const paymentForm = document.getElementById("payment-form");
+        const confirmation = document.getElementById("payment-confirmation");
+
+        const setActiveSummary = (value) => {
+            summaryItems.forEach((item) => {
+                item.classList.toggle("is-active", item.dataset.ticket === value);
+            });
+        };
+
+        ticketTypeSelect.addEventListener("change", (event) => {
+            setActiveSummary(event.target.value);
+        });
+ 
+        paymentForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            paymentForm.style.display = "none";
+            confirmation.classList.add("is-active");  
+        });
+    </script>
+</body>
+</html> 
